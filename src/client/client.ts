@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as minimatch from "minimatch";
 import * as tls from "tls";
-import { Admin, ConfigResourceTypes, Consumer, ConsumerConfig, Kafka, KafkaConfig, Producer, SASLOptions, SeekEntry } from "kafkajs";
+import { Admin, CompressionCodecs, CompressionTypes, ConfigResourceTypes, Consumer, ConsumerConfig, Kafka, KafkaConfig, Producer, SASLOptions, SeekEntry } from "kafkajs";
+import SnappyCodec from "kafkajs-snappy";
 
 import { Disposable } from "vscode";
 import { ClientAccessor, ClientState } from ".";
@@ -9,6 +10,9 @@ import { getClusterProvider } from "../kafka-extensions/registry";
 import { getWorkspaceSettings, WorkspaceSettings } from "../settings";
 import { TopicSortOption } from "../settings/workspace";
 
+// Bootstrap snappy compression
+CompressionCodecs[CompressionTypes.Snappy] = SnappyCodec;
+console.log(SnappyCodec)
 export interface ConnectionOptions {
     clusterProviderId?: string;
     bootstrap: string;
